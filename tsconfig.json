@@ -1,33 +1,22 @@
 {
   "compilerOptions": {
-    "paths": {
-      "react": [ "./node_modules/@types/react" ]
-    },
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "incremental": true
+    "incremental": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*.ts"
-  ],
-  "ts-node": {
-    "transpileOnly": true,
-    "moduleTypes": {
-      "*.tsx": "jsx"
-    }
-  }
+  ]
 }

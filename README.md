@@ -21,6 +21,7 @@ interface Configuration {
   },
   routes?: {
     build?: true,
+    type?: 'tsx'|'jsx',
   },
   htmlMinify?: {
     collapseBooleanAttributes?: boolean,
@@ -44,6 +45,10 @@ interface Configuration {
   },
 }
 ```
+
+If you prefer using a cli format, `--{group}.{setting}=abc` will set string settings to abc, while booleans can be flipped by just using `--{group}.{setting}`. For example for api-bench, that uses the defaults, you can set the domain by using `--sitemap.domain=idrinth-api-ben.ch`. The setting `fileFinder.overridePathMappings` can not be configured via the cli.
+
+Default options are overwritten first by the file based settings and then by the command line settings.
 
 # Setup
 

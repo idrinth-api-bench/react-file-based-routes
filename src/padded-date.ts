@@ -1,4 +1,4 @@
-export default (date: Date) => {
+export default (date: Date) : string=> {
     let data = `${date.getUTCFullYear()}-`;
     if (date.getUTCMonth() < 9) {
         data += '0';

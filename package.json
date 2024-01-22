@@ -1,7 +1,8 @@
 {
   "name": "@idrinth/react-file-based-routes",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple file based routing library, that does not force itself on you.",
+  "type": "module",
   "bin": {
     "react-file-based-routes-generate-routes": "bin/generate-routes.js",
     "react-file-based-routes-generate-folders": "bin/generate-folders.js",
@@ -16,12 +17,14 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "app-root-path": "^3.1.0",
     "astring": "^1.8.6",
     "estree-walker": "^3.0.3",
     "fast-glob": "^3.3.2",
     "html-minifier": "^4.0.0",
     "magic-string": "^0.30.5",
     "react": "^18.2.0"
+  },
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json"
   }
 }
