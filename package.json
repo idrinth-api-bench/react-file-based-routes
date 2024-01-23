@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "A simple file based routing library, that does not force itself on you.",
   "type": "module",
+  "keywords": [
+    "react",
+    "routing",
+    "file-based-routing",
+    "library"
+  ],
   "bin": {
     "react-file-based-routes-generate-routes": "bin/generate-routes.js",
     "react-file-based-routes-generate-folders": "bin/generate-folders.js",
@@ -25,6 +31,9 @@
     "react": "^18.2.0"
   },
   "scripts": {
-    "tsc": "tsc -p tsconfig.json"
+    "tsc": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run tsc",
+    "clear": "rm src/*.js",
+    "postpublish": "npm run clear"
   }
 }

@@ -4,7 +4,7 @@ This is a small library used to teach the default react routers file based routi
 
 ## Defining a page
 
-A page is by default any ìndex.tsx within the src/pages folder. The folder name will be taken as the page url, with two exceptions:
+A page is by default any `ìndex.tsx` within the `src/pages` folder. The folder name will be taken as the page url, with two exceptions by default:
 
 - home will be the root
 - not-found will be the 404 page
@@ -54,6 +54,6 @@ Default options are overwritten first by the file based settings and then by the
 
 You will need to do three things for the complete package:
 
-- Define a call to generate-routes in you package.json as afterInstall and early in your build process to generate the routes.tsx and the sitemap
-- Optionally define a call to generate-folders in your package.json as a late build step to optimise the index.html files
-- Import the generated src/routes.tsx, so that you can use createBrowserRouter or similar functions to create your router
+- Define a call to generate-routes(`irfbrgr` or `react-file-based-routes-generate-routes`) in you package.json as afterInstall and early in your build process to generate the routes.tsx and the sitemap
+- Optionally define a call to generate-folders(`ìrfbrgf` or `react-file-based-routes-generate-folders`) in your package.json as a late build step to optimise the index.html files
+- Default import the generated `src/routes.tsx`, so that you can use createBrowserRouter or similar functions to create your router. It requires getting a `Loader` element passed to it - any react element will do

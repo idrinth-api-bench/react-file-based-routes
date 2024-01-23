@@ -1,0 +1,8 @@
+/test
+.eslintrc.yml
+/.nyc_output
+/coverage
+/.mocharc.cjs
+/.nycrc.json
+/fixtures
+/tools

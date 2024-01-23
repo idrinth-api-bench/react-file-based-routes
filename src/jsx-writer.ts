@@ -5,7 +5,8 @@ export default class JsxWriter implements Writer {
     return 'src/routes.jsx';
   }
   private items: string[] = [];
-  add(path: string, url: string, domain: string, changed: string): void
+  // @ts-ignore TS6133
+  add(path: string, url: string, changed: string): void
   {
     this.items.push('  ' + `(() => {
     const LazyElement = lazy(() => import(

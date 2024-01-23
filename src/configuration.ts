@@ -3,35 +3,40 @@ import {
   existsSync,
 } from 'fs';
 
+interface Sitemap {
+  domain: string,
+  build: boolean,
+}
+interface Routes {
+  build: boolean,
+  type: 'tsx'|'jsx',
+  overridePathMappings: {
+    [filesystemPath: string]: string,
+  },
+}
+interface HTMLMinify {
+  collapseBooleanAttributes: boolean,
+  conservativeCollapse: boolean,
+  collapseWhitespace: boolean,
+  removeAttributeQuotes: boolean,
+  removeComments: boolean,
+}
+interface FileBuilder {
+  buildIndex: boolean,
+  minifyPages: boolean,
+  appendPageChunk: boolean,
+}
+interface FileFinder {
+  fileName: string,
+  pagesRoot: string,
+  distJSRoot: string,
+}
 export interface Configuration {
-  sitemap: {
-    domain: string,
-    build: boolean,
-  },
-  routes: {
-    build: boolean,
-    type: 'tsx'|'jsx',
-    overridePathMappings: {
-      [filesystemPath: string]: string,
-    },
-  },
-  htmlMinify: {
-    collapseBooleanAttributes: boolean,
-    conservativeCollapse: boolean,
-    collapseWhitespace: boolean,
-    removeAttributeQuotes: boolean,
-    removeComments: boolean,
-  },
-  fileBuilder: {
-    buildIndex: boolean,
-    minifyPages: boolean,
-    appendPageChunk: boolean,
-  },
-  fileFinder: {
-    fileName: string,
-    pagesRoot: string,
-    distJSRoot: string,
-  },
+  sitemap: Sitemap,
+  routes: Routes,
+  htmlMinify: HTMLMinify,
+  fileBuilder: FileBuilder,
+  fileFinder: FileFinder,
 }
 
 export default (cwd: string, cliArguments: string[]): Configuration => {
@@ -68,11 +73,11 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
   };
   const configFile = cwd + '/.idrinth-react-file-based-routes.json';
   if (existsSync(configFile)) {
-    const userconfig: Partial<Configuration> = JSON.parse(readFileSync(configFile, 'utf-8'));
+    const userconfig: Configuration = JSON.parse(readFileSync(configFile, 'utf-8'));
     if (typeof userconfig === 'object') {
-      for (const prop of Object.keys(config)) {
+      for (const prop of Object.keys(config) as [keyof Configuration]) {
         if (typeof userconfig[prop] === 'object' && typeof config[prop] === 'object') {
-          for (const setting of Object.keys(config[prop])) {
+          for (const setting of Object.keys(config[prop]) as [keyof Configuration[typeof prop]]) {
             if (typeof config[prop][setting] === typeof userconfig[prop][setting]) {
               config[prop][setting] = userconfig[prop][setting];
             }
@@ -83,12 +88,24 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
   }
   for (const param of cliArguments) {
     if (param.startsWith('--')) {
-      const [setting, value,] = param.substring(2).split('=');
-      const [group, detail,] = setting.split('.');
+      const [setting, value,] = param.substring(2).split('=') as [string, undefined|string];
+      const [group, detail,] = setting.split('.') as [keyof Configuration, keyof Sitemap|keyof Routes|keyof FileFinder|keyof FileBuilder|keyof HTMLMinify];
       if (group && typeof config[group] === 'object' && detail) {
+        // @ts-ignore TS7053
         if (typeof config[group][detail] === 'boolean') {
-          config[group][detail] = !config[group][detail];
-        } else if(typeof config[group][detail] === 'string' && value) {
+          if (value === 'true') {
+            // @ts-ignore TS7053
+            config[group][detail] = true;
+          } else if (value === 'false') {
+            // @ts-ignore TS7053
+            config[group][detail] = false;
+          } else {
+            // @ts-ignore TS7053
+            config[group][detail] = !config[group][detail];
+          }
+        // @ts-ignore TS7053
+        } else if (typeof config[group][detail] === 'string' && value) {
+          // @ts-ignore TS7053
           config[group][detail] = value;
         }
       }
@@ -96,6 +113,9 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
   }
   if (config.sitemap.build && !config.sitemap.domain) {
     throw new Error('sitemap.domain must be set if a sitemap should be build.');
+  }
+  if (config.routes.type !== 'tsx' && config.routes.type !== 'jsx') {
+    throw new Error('config.routes.type must be set to either tsx or jsx.');
   }
   return config;
 }
