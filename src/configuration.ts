@@ -35,7 +35,7 @@ export interface Configuration {
 }
 
 export default (cwd: string, cliArguments: string[]): Configuration => {
-  const config = {
+  const config: Configuration = {
     sitemap: {
       build: true,
       domain: '',
@@ -68,7 +68,7 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
   };
   const configFile = cwd + '/.idrinth-react-file-based-routes.json';
   if (existsSync(configFile)) {
-    const userconfig = JSON.parse(readFileSync(configFile, 'utf-8'));
+    const userconfig: Partial<Configuration> = JSON.parse(readFileSync(configFile, 'utf-8'));
     if (typeof userconfig === 'object') {
       for (const prop of Object.keys(config)) {
         if (typeof userconfig[prop] === 'object' && typeof config[prop] === 'object') {
@@ -85,13 +85,11 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
     if (param.startsWith('--')) {
       const [setting, value,] = param.substring(2).split('=');
       const [group, detail,] = setting.split('.');
-      if (group && typeof config[group] === 'object') {
-        if (detail) {
-          if (typeof config[group][detail] === 'boolean') {
-            config[group][detail] = !config[group][detail];
-          } else if(typeof config[group][detail] === 'string' && value) {
-            config[group][detail] = value;
-          }
+      if (group && typeof config[group] === 'object' && detail) {
+        if (typeof config[group][detail] === 'boolean') {
+          config[group][detail] = !config[group][detail];
+        } else if(typeof config[group][detail] === 'string' && value) {
+          config[group][detail] = value;
         }
       }
     }

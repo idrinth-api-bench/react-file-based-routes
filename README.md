@@ -20,8 +20,11 @@ interface Configuration {
     build?: boolean,
   },
   routes?: {
-    build?: true,
+    build?: boolean,
     type?: 'tsx'|'jsx',
+    overridePathMappings?: {
+      [filesystemPath: string]: string,
+    },
   },
   htmlMinify?: {
     collapseBooleanAttributes?: boolean,
@@ -37,9 +40,6 @@ interface Configuration {
   },
   fileFinder?: {
     fileName?: string,
-    overridePathMappings?: {
-      [filesystemPath: string]: string,
-    },
     pagesRoot?: string,
     distJSRoot?: string,
   },
