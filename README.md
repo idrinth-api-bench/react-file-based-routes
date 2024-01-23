@@ -1,4 +1,4 @@
-# @idrinth/react-file-based-routing
+# @idrinth/react-file-based-routes
 
 This is a small library used to teach the default react routers file based routing and optimise the output as far as that is possible without server side rendering. It is meant for mostly static pages, where the overhead of nextjs of vike is not required.
 
