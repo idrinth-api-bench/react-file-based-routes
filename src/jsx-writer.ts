@@ -8,16 +8,17 @@ export default class JsxWriter implements Writer {
   // @ts-ignore TS6133
   add(path: string, url: string, changed: string): void
   {
-    this.items.push('  ' + `(() => {
-    const LazyElement = lazy(() => import(
-      \'./pages/${path}/index.tsx\',
-    ),);
-    return {
-      path: \'${url}\',
-      exact: true,
-      element: <Suspense fallback={<Loader/>}><LazyElement/></Suspense>,
-    };
-    })(),`);
+    this.items.push(`  (() => {
+      const LazyElement = lazy(() => import(
+        \'./pages/${path}/index.tsx\',
+      ),);
+      return {
+        path: \'${url}\',
+        exact: true,
+        element: <Suspense fallback={<Loader/>}><LazyElement/></Suspense>,
+      };
+      })(),`
+    );
   }
   toString(): string {
     return 'import React, {\n' +
