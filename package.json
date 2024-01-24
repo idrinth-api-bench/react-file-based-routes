@@ -1,7 +1,9 @@
 {
   "name": "@idrinth/react-file-based-routes",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "repository": "https://github.com/idrinth/react-file-based-routes",
   "description": "A simple file based routing library, that does not force itself on you.",
+  "license": "MIT",
   "type": "module",
   "keywords": [
     "react",
