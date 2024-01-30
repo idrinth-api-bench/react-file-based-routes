@@ -9,10 +9,10 @@ import Writer from './writer.js';
 export default (cwd: string, configuration: Configuration) => {
   const writers: Writer[] = [];
   if (configuration.routes.build && configuration.routes.type === 'tsx') {
-    writers.push(new TsxWriter())
+    writers.push(new TsxWriter(configuration.runtime.reloadWaitMs,))
   }
   if (configuration.routes.build && configuration.routes.type === 'jsx') {
-    writers.push(new JsxWriter())
+    writers.push(new JsxWriter(configuration.runtime.reloadWaitMs,))
   }
   if (configuration.sitemap.build) {
     writers.push(new SitemapWriter(configuration.sitemap.domain));

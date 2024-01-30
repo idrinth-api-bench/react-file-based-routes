@@ -31,7 +31,11 @@ interface FileFinder {
   pagesRoot: string,
   distJSRoot: string,
 }
+interface Runtime {
+  reloadWaitMs: number,
+}
 export interface Configuration {
+  runtime: Runtime,
   sitemap: Sitemap,
   routes: Routes,
   htmlMinify: HTMLMinify,
@@ -44,6 +48,9 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
     sitemap: {
       build: true,
       domain: '',
+    },
+    runtime: {
+      reloadWaitMs: 0,
     },
     routes: {
       build: true,
@@ -89,7 +96,7 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
   for (const param of cliArguments) {
     if (param.startsWith('--')) {
       const [setting, value,] = param.substring(2).split('=') as [string, undefined|string];
-      const [group, detail,] = setting.split('.') as [keyof Configuration, keyof Sitemap|keyof Routes|keyof FileFinder|keyof FileBuilder|keyof HTMLMinify];
+      const [group, detail,] = setting.split('.') as [keyof Configuration, keyof Runtime|keyof Sitemap|keyof Routes|keyof FileFinder|keyof FileBuilder|keyof HTMLMinify];
       if (group && typeof config[group] === 'object' && detail) {
         // @ts-ignore TS7053
         if (typeof config[group][detail] === 'boolean') {
@@ -116,6 +123,9 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
   }
   if (config.routes.type !== 'tsx' && config.routes.type !== 'jsx') {
     throw new Error('config.routes.type must be set to either tsx or jsx.');
+  }
+  if (config.runtime.reloadWaitMs < 0) {
+    throw new Error('config.runtime.reloadWaitMs must be set to at least 0.');
   }
   return config;
 }
