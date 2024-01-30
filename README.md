@@ -19,6 +19,9 @@ interface Configuration {
     domain?: string,
     build?: boolean,
   },
+  runtime?: {
+    reloadWaitMs: number
+  },
   routes?: {
     build?: boolean,
     type?: 'tsx'|'jsx',
