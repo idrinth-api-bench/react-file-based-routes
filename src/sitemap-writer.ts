@@ -13,7 +13,7 @@ export default class SitemapWriter implements Writer {
     if (url === '*') {
       return;
     }
-    this.items.push(`<url><loc>https://${this.domain}/${url}/</loc><lastmod>${changed}</lastmod></url>`);
+    this.items.push(`<url><loc>https://${this.domain}${url}</loc><lastmod>${changed}</lastmod></url>`);
   }
   toString(): string {
     return '<?xml version="1.0" encoding="UTF-8"?>' +
