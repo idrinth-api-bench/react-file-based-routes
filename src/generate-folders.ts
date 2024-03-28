@@ -1,6 +1,6 @@
 import {
   readdirSync,
-  readFileSync,
+  readFileSync, writeFileSync,
 } from 'fs';
 import minifier from 'html-minifier';
 import {Configuration} from './configuration.js';
@@ -8,6 +8,9 @@ import writeIndexHtml from "./write-index-html.js";
 import {
   minify,
 } from '@putout/minify';
+import {
+  createHash,
+} from 'crypto';
 
 export default (cwd: string, configuration: Configuration) => {
   const template = (() => {
@@ -46,6 +49,9 @@ export default (cwd: string, configuration: Configuration) => {
           prefetch.setAttribute('as', as);
           header.appendChild(prefetch);
         };`;
+    const name = createHash('sha256')
+      .update(JSON.stringify(jsFiles) + JSON.stringify(cssFiles))
+      .digest('hex');
     if (jsFiles.length > 0 && cssFiles.length > 0) {
       const script = `window.setTimeout(() => {
         ${ func }
@@ -56,7 +62,12 @@ export default (cwd: string, configuration: Configuration) => {
           append('application/javascript', 'script', js);
         }
       }, ${ configuration.fileBuilder.preloadStartDelay });`;
-      return `<script type="text/javascript">${ minify(script) }</script>`;
+      writeFileSync(
+        `${cwd}/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js`,
+        minify(script),
+        'utf8'
+      );
+      return `<script type="text/javascript" src="/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js"></script>`;
     }
     if (cssFiles.length > 0) {
       const script = `window.setTimeout(() => {
@@ -65,7 +76,12 @@ export default (cwd: string, configuration: Configuration) => {
           append('text/css', 'style', css);
         }
       }, ${ configuration.fileBuilder.preloadStartDelay });`;
-      return `<script type="text/javascript">${ minify(script) }</script>`;
+      writeFileSync(
+        `${cwd}/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js`,
+        minify(script),
+        'utf8'
+      );
+      return `<script type="text/javascript" src="/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js"></script>`;
     }
     if (jsFiles.length > 0) {
       const script = `window.setTimeout(() => {
@@ -74,7 +90,12 @@ export default (cwd: string, configuration: Configuration) => {
           append('application/javascript', 'script', js);
         }
       }, ${ configuration.fileBuilder.preloadStartDelay });`;
-      return `<script type="text/javascript">${ minify(script) }</script>`;
+      writeFileSync(
+        `${cwd}/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js`,
+        minify(script),
+        'utf8'
+      );
+      return `<script type="text/javascript" src="/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js"></script>`;
     }
     return '';
   })();

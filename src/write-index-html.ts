@@ -11,15 +11,17 @@ export default (cwd: string, jsFile: string, path: string, template: string, con
   if (! configuration.fileBuilder.appendPageChunk) {
     writeFileSync(
       target,
-      template.replace(/<\/head>/, `${ preload }</head>`),
+      template.replace(/<\/body>/, `${ preload }</body>`),
     );
     return;
   }
   writeFileSync(
     target,
-    template.replace(
-      /<\/head>/,
-      `<script src="/assets/${jsFile}" type="module"></script>${ preload }</head>`,
-    ),
+    template
+      .replace(
+        /<\/head>/,
+        `<script src="/assets/${jsFile}" type="module"></script></head>`,
+      )
+      .replace(/<\/body>/, `${ preload }</body>`),
   );
 }
