@@ -52,8 +52,9 @@ export default (cwd: string, configuration: Configuration) => {
     const name = createHash('sha256')
       .update(JSON.stringify(jsFiles) + JSON.stringify(cssFiles))
       .digest('hex');
+    const tag = `<script type="text/javascript">setTimeout(() => {const d=document;const s=d.createElement('script');s.setAttribute('type','application/javascript');s.setAttribute('src', '/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js');d.getElementsByTagName('header')[0].appendChild(s)), ${ configuration.fileBuilder.preloadStartDelay })</script>`;
     if (jsFiles.length > 0 && cssFiles.length > 0) {
-      const script = `window.setTimeout(() => {
+      const script = `() => {
         ${ func }
         for (const css of ${JSON.stringify(cssFiles)}) {
           append('text/css', 'style', css);
@@ -61,13 +62,13 @@ export default (cwd: string, configuration: Configuration) => {
         for (const js of ${JSON.stringify(jsFiles)}) {
           append('application/javascript', 'script', js);
         }
-      }, ${ configuration.fileBuilder.preloadStartDelay });`;
+      })();`;
       writeFileSync(
         `${cwd}/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js`,
         minify(script),
         'utf8'
       );
-      return `<script type="text/javascript" src="/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js"></script>`;
+      return tag;
     }
     if (cssFiles.length > 0) {
       const script = `window.setTimeout(() => {
@@ -81,7 +82,7 @@ export default (cwd: string, configuration: Configuration) => {
         minify(script),
         'utf8'
       );
-      return `<script type="text/javascript" src="/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js"></script>`;
+      return tag;
     }
     if (jsFiles.length > 0) {
       const script = `window.setTimeout(() => {
@@ -95,7 +96,7 @@ export default (cwd: string, configuration: Configuration) => {
         minify(script),
         'utf8'
       );
-      return `<script type="text/javascript" src="/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js"></script>`;
+      return tag;
     }
     return '';
   })();
