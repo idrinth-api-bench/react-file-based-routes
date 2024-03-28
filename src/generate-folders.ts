@@ -14,14 +14,14 @@ export default (cwd: string, configuration: Configuration) => {
     }
     return data;
   })();
-  const matcher = new RegExp(`${configuration.fileFinder.distJSRoot}/(.*?)${configuration.fileFinder.fileName}`);
+  const matcher = new RegExp(`="${cwd}/${configuration.fileFinder.pagesRoot}/([^"]*?)${configuration.fileFinder.fileName}"`, 'u');
   const fileName = configuration.fileFinder.fileName.replace(/\.tsx$/, '-');
   const cssFiles = [];
   const jsFiles = [];
   const files = readdirSync(cwd + '/' + configuration.fileFinder.distJSRoot, {encoding: 'utf8', recursive: true});
   if (configuration.fileBuilder.preLoadCSS) {
     for (const file of files) {
-      if (file.endsWith('.css',)) {
+      if (file.endsWith('.css',) && ! file.startsWith('index-',)) {
         cssFiles.push(file,);
       }
     }
@@ -33,7 +33,6 @@ export default (cwd: string, configuration: Configuration) => {
       }
     }
   }
-
   for (const file of files) {
     if (file.endsWith('.js') && file.startsWith(fileName)) {
       const content = readFileSync(cwd + '/' + configuration.fileFinder.distJSRoot + '/' + file, 'utf8',);
