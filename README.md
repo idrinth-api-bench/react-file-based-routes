@@ -40,6 +40,7 @@ interface Configuration {
     buildIndex?: boolean,
     minifyPages?: boolean,
     appendPageChunk?: boolean,
+    preLoadCSS?: boolean,
   },
   fileFinder?: {
     fileName?: string,
