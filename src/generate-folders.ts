@@ -88,7 +88,7 @@ export default (cwd: string, configuration: Configuration) => {
           if (configuration.routes.overridePathMappings[pageName] !== '*') {
             writeIndexHtml(cwd, file, configuration.routes.overridePathMappings[pageName], template, configuration, preload);
           } else {
-            writeIndexHtml(cwd, file, '', template, configuration, preload);
+            writeIndexHtml(cwd, file, '/', template, configuration, preload);
           }
         } else {
           writeIndexHtml(cwd, file, `/${ pageName }/`, template, configuration, preload);
