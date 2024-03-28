@@ -9,9 +9,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "typeRoots": [
+      "typings",
+      "node_modules/@types"
+    ],
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "typings/*.d.ts"
   ]
 }

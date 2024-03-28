@@ -27,6 +27,7 @@ interface FileBuilder {
   appendPageChunk: boolean,
   preLoadCSS: boolean,
   preLoadJS: boolean,
+  preloadStartDelay: number,
 }
 interface FileFinder {
   fileName: string,
@@ -80,6 +81,7 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
       appendPageChunk: true,
       preLoadCSS: true,
       preLoadJS: true,
+      preloadStartDelay: 5000,
     },
   };
   const configFile = cwd + '/.idrinth-react-file-based-routes.json';

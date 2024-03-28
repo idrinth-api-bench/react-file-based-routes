@@ -41,6 +41,7 @@ interface Configuration {
     minifyPages?: boolean,
     appendPageChunk?: boolean,
     preLoadCSS?: boolean,
+    preloadStartDelay?: number,
   },
   fileFinder?: {
     fileName?: string,
