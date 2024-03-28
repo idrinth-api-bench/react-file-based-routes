@@ -57,9 +57,9 @@ export default (cwd: string, configuration: Configuration) => {
       const s = d.createElement('script');
       const a = (t, v) => s.setAttribute(t, v);
       a('type', 'application/javascript');
-      a('src', '/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js');
+      a('src', '/assets/irfbr-${name}.js');
       d.getElementsByTagName('header')[0].appendChild(s);
-    } , ${ configuration.fileBuilder.preloadStartDelay });`);
+    }, ${ configuration.fileBuilder.preloadStartDelay });`);
     const tag = `<script type="text/javascript">${ loader }</script>`;
     if (jsFiles.length > 0 && cssFiles.length > 0) {
       const script = `(() => {
