@@ -52,7 +52,15 @@ export default (cwd: string, configuration: Configuration) => {
     const name = createHash('sha256')
       .update(JSON.stringify(jsFiles) + JSON.stringify(cssFiles))
       .digest('hex');
-    const tag = `<script type="text/javascript">setTimeout(() => {const d=document;const s=d.createElement('script');s.setAttribute('type','application/javascript');s.setAttribute('src', '/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js');d.getElementsByTagName('header')[0].appendChild(s)), ${ configuration.fileBuilder.preloadStartDelay })</script>`;
+    const loader = minify(`setTimeout(() => {
+      const d = document;
+      const s = d.createElement('script');
+      const a = (t, v) => s.setAttribute(t, v);
+      a('type', 'application/javascript');
+      a('src', '/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js');
+      d.getElementsByTagName('header')[0].appendChild(s);
+    } , ${ configuration.fileBuilder.preloadStartDelay });`);
+    const tag = `<script type="text/javascript">${ loader }</script>`;
     if (jsFiles.length > 0 && cssFiles.length > 0) {
       const script = `(() => {
         ${ func }
