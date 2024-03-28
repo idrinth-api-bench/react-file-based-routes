@@ -38,12 +38,16 @@ export default (cwd: string, configuration: Configuration) => {
       const content = readFileSync(cwd + '/' + configuration.fileFinder.distJSRoot + '/' + file, 'utf8',);
       const res = matcher.exec(content);
       if (res && res[1]) {
-        if (typeof configuration.routes.overridePathMappings[res[1]] === 'string') {
-          if (configuration.routes.overridePathMappings[res[1]] !== '*') {
-            writeIndexHtml(cwd, file, configuration.routes.overridePathMappings[res[1]], template, configuration, cssFiles, jsFiles);
+        const pageName = res[1].replace(/\/$/u, '');
+        console.log(pageName);
+        if (typeof configuration.routes.overridePathMappings[pageName] === 'string') {
+          if (configuration.routes.overridePathMappings[pageName] !== '*') {
+            writeIndexHtml(cwd, file, configuration.routes.overridePathMappings[pageName], template, configuration, cssFiles, jsFiles);
+          } else {
+            writeIndexHtml(cwd, file, '', template, configuration, cssFiles, jsFiles);
           }
         } else {
-          writeIndexHtml(cwd, file, `/${ res[1] }/`, template, configuration, cssFiles, jsFiles);
+          writeIndexHtml(cwd, file, `/${ pageName }/`, template, configuration, cssFiles, jsFiles);
         }
       }
     }
