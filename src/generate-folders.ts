@@ -21,7 +21,7 @@ export default (cwd: string, configuration: Configuration) => {
     return data;
   })();
   const matcher = cwd.includes('\\')
-    ? new RegExp(`="${cwd}\\\\${configuration.fileFinder.pagesRoot.replace(/\//, '\\')}\\\\([^"]*?)${configuration.fileFinder.fileName}"`, 'u')
+    ? new RegExp(`="${cwd}\\\\${configuration.fileFinder.pagesRoot.replace(/\//, '\\\\')}\\\\([^"]*?)${configuration.fileFinder.fileName}"`, 'u')
     : new RegExp(`="${cwd}/${configuration.fileFinder.pagesRoot}/([^"]*?)${configuration.fileFinder.fileName}"`, 'u');
   const fileName = configuration.fileFinder.fileName.replace(/\.tsx$/, '-');
   const cssFiles = [];
