@@ -11,22 +11,7 @@ export default class TsxWriter implements Writer {
   add(path: string, url: string, changed: string): void
   {
     this.items.push(`  (() => {
-      const LazyElement = lazy(async(): Promise\<{default: ComponentType<any>;}\> => {
-        try {
-          return await import(
-            './pages/${path}/index.tsx',
-          );
-        } catch (e) {
-          if (OfflineLoader && ! window.navigator.onLine) {
-            return {default: OfflineLoader};
-          }
-          if (RefreshLoader) {
-            window.setTimeout(() => window.location.reload(), ${this.waitReloadMS},);
-            return {default: RefreshLoader};
-          }
-          throw e;
-        }
-      },);
+      const LazyElement = buildLazyElement(OfflineLoader, RefreshLoader, './pages/${path}/index.tsx',);
       return {
         path: '${url}',
         exact: true,
@@ -42,6 +27,24 @@ export default class TsxWriter implements Writer {
       '  ElementType,\n' +
       '  ComponentType,\n' +
       '} from \'react\';\n\n' +
+      'const buildLazyElement = (\n' +
+      '  OfflineLoader: ComponentType|undefined,\n' +
+      '  RefreshLoader: ComponentType|undefined,\n' +
+      '   path: string,\n' +
+      ') => lazy(async() => {\n' +
+      '  try {\n' +
+      '    return await import(path);\n' +
+      '  } catch (e) {\n' +
+      '    if (OfflineLoader && ! window.navigator.onLine) {\n' +
+      '      return {default: OfflineLoader};\n' +
+      '    }\n' +
+      '    if (RefreshLoader) {\n' +
+      `      window.setTimeout(() => window.location.reload(), ${this.waitReloadMS},);\n` +
+      '      return {default: RefreshLoader};\n' +
+      '    }\n' +
+      '    throw e;\n' +
+      '  }\n' +
+      '},);\n\n' +
       'export default (\n' +
       '  Loader: ElementType,\n' +
       '  RefreshLoader: ComponentType|undefined = undefined,\n' +
