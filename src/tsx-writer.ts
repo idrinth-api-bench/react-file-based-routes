@@ -30,7 +30,7 @@ export default class TsxWriter implements Writer {
       'const buildLazyElement = (\n' +
       '  OfflineLoader: ComponentType|undefined,\n' +
       '  RefreshLoader: ComponentType|undefined,\n' +
-      '  imp: Promise<{default: ComponentType|ElementType}>,\n' +
+      '  imp: Promise<{default: ComponentType<any>}>,\n' +
       ') => lazy(async() => {\n' +
       '  try {\n' +
       '    return await imp;\n' +
@@ -45,7 +45,11 @@ export default class TsxWriter implements Writer {
       '    throw e;\n' +
       '  }\n' +
       '},);\n\n' +
-      'const buildRoute = (LazyElement: ElementType, Loader: ElementType, url: string) => {\n' +
+      'const buildRoute = (' +
+      '  LazyElement: ComponentType|ElementType,' +
+      '  Loader: ElementType,' +
+      '  url: string,' +
+      ') => {\n' +
       '  return {\n' +
       '    path: url,\n' +
       '    exact: true,\n' +
