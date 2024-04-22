@@ -11,13 +11,9 @@ export default class JsxWriter implements Writer {
   add(path: string, url: string, changed: string): void
   {
     this.items.push(`  (() => {
-      const LazyElement = buildLazyElement(OfflineLoader, RefreshLoader, './pages/${path}/index.tsx',);
-      return {
-        path: '${url}',
-        exact: true,
-        element: <Suspense fallback={<Loader/>}><LazyElement/></Suspense>,
-      };
-      })(),`
+      const LazyElement = buildLazyElement(OfflineLoader, RefreshLoader, import('./pages/${path}/index.tsx',),);
+      return buildRoute(LazyElement, Loader, '${ url }');
+    })(),`
     );
   }
   toString(): string {
@@ -25,9 +21,9 @@ export default class JsxWriter implements Writer {
       '  lazy,\n' +
       '  Suspense,\n' +
       '} from \'react\';\n\n' +
-      'const buildLazyElement = (OfflineLoader, RefreshLoader, path,) => lazy(async() => {\n' +
+      'const buildLazyElement = (OfflineLoader, RefreshLoader, imp,) => lazy(async() => {\n' +
       '  try {\n' +
-      '    return await import(path);\n' +
+      '    return await imp;\n' +
       '  } catch (e) {\n' +
       '    if (OfflineLoader && ! window.navigator.onLine) {\n' +
       '      return {default: OfflineLoader};\n' +
@@ -39,6 +35,13 @@ export default class JsxWriter implements Writer {
       '    throw e;\n' +
       '  }\n' +
       '},);\n\n' +
+      'const buildRoute = (LazyElement, Loader, url) => {\n' +
+      '  return {\n' +
+      '    path: url,\n' +
+      '    exact: true,\n' +
+      '    element: <Suspense fallback={<Loader/>}><LazyElement/></Suspense>,\n' +
+      '  }\n' +
+      '};\n\n' +
       'export default (' +
       '  Loader,' +
       '  RefreshLoader = undefined,' +
