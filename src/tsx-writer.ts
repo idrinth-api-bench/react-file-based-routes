@@ -12,12 +12,8 @@ export default class TsxWriter implements Writer {
   {
     this.items.push(`  (() => {
       const LazyElement = buildLazyElement(OfflineLoader, RefreshLoader, import('./pages/${path}/index.tsx',),);
-      return {
-        path: '${url}',
-        exact: true,
-        element: <Suspense fallback={<Loader/>}><LazyElement/></Suspense>,
-      };
-      })(),`
+      return buildRoute(LazyElement, Loader, '${ url }');;
+    })(),`
     );
   }
   toString(): string {
