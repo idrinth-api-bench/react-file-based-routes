@@ -5,14 +5,14 @@ export default class JsxWriter implements Writer {
     return 'src/routes.jsx';
   }
   protected items: string[] = [];
-  constructor(private readonly waitReloadMS: number) {
+  constructor(private readonly waitReloadMS: number, private readonly useOutput: boolean,) {
   }
   // @ts-ignore TS6133
   add(path: string, url: string, changed: string): void
   {
     this.items.push(`  (() => {
       const LazyElement = buildLazyElement(OfflineLoader, RefreshLoader, import('./pages/${path}/index.tsx',),);
-      return buildRoute(LazyElement, Loader, '${ url }');
+      return buildRoute(LazyElement, Loader, '${ url }',);
     })(),`
     );
   }
@@ -20,7 +20,9 @@ export default class JsxWriter implements Writer {
     return 'import React, {\n' +
       '  lazy,\n' +
       '  Suspense,\n' +
-      '} from \'react\';\n\n' +
+      '} from \'react\';\n' +
+      (this.useOutput ? 'import {\n  Outlet,\n} from \'react-router-dom\';\n' : '' ) +
+      '\n' +
       'const buildLazyElement = (OfflineLoader, RefreshLoader, imp,) => lazy(async() => {\n' +
       '  try {\n' +
       '    return await imp;\n' +
@@ -44,10 +46,13 @@ export default class JsxWriter implements Writer {
       '};\n\n' +
       'export default (' +
       '  Loader,' +
+      (this.useOutput ? '  Layout,' : '' ) +
       '  RefreshLoader = undefined,' +
       '  OfflineLoader = undefined,' +
       ') => [\n  '
+      + (this.useOutput ? '{element: <Layout><Outlet/></Layout>, children: [\n' : '')
       + this.items.join('\n  ')
+      + (this.useOutput ? '\n]}' : '')
       + '\n];\n'
   }
 }
