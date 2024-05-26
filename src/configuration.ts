@@ -13,6 +13,7 @@ interface Routes {
   overridePathMappings: {
     [filesystemPath: string]: string,
   },
+  useOutput: boolean,
 }
 interface HTMLMinify {
   collapseBooleanAttributes: boolean,
@@ -62,6 +63,7 @@ export default (cwd: string, cliArguments: string[]): Configuration => {
         home: '/',
         'not-found': '*',
       },
+      useOutput: false,
     },
     htmlMinify: {
       collapseBooleanAttributes: true,
