@@ -1,10 +1,10 @@
 import {readdirSync, statSync, writeFileSync,} from 'fs';
-import paddedDate from './padded-date.js';
-import {Configuration} from "./configuration.js";
-import TsxWriter from './tsx-writer.js';
-import JsxWriter from './jsx-writer.js';
-import SitemapWriter from './sitemap-writer.js';
-import Writer from './writer.js';
+import paddedDate from './generate-routes/padded-date.js';
+import TsxWriter from './generate-routes/tsx-writer.js';
+import JsxWriter from './generate-routes/jsx-writer.js';
+import SitemapWriter from './generate-routes/sitemap-writer.js';
+import Writer from './generate-routes/writer.js';
+import {Configuration} from './configuration/configuration.js';
 
 export default (cwd: string, configuration: Configuration) => {
   const writers: Writer[] = [];
