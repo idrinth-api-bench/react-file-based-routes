@@ -7,7 +7,7 @@ export default (files: string[], configuration: Configuration, fileName: string,
     if (file.endsWith('.js') && file.startsWith(fileName)) {
       const content = readFileSync(cwd + '/' + configuration.fileFinder.distJSRoot + '/' + file, 'utf8',);
       const res = matcher.exec(content);
-      if (res && res[1]) {
+      if (res?.[1]) {
         const pageName = res[1].replace(/[\\/]$/u, '');
         if (typeof configuration.routes.overridePathMappings[pageName] === 'string') {
           if (configuration.routes.overridePathMappings[pageName] !== '*') {
