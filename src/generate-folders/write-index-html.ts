@@ -1,5 +1,5 @@
-import {Configuration} from './configuration.js';
 import {mkdirSync, writeFileSync} from 'fs';
+import {Configuration} from '../configuration/configuration.js';
 
 export default (cwd: string, jsFile: string, path: string, template: string, configuration: Configuration, preload: string) => {
   if (!configuration.fileBuilder.buildIndex) {
