@@ -8,7 +8,7 @@ export default (configuration: Configuration, files: string[], cwd: string)  => 
   const jsFiles = [];
   if (configuration.fileBuilder.preLoadCSS) {
     for (const file of files) {
-      if (file.endsWith('.css',) && ! file.startsWith('index-',) && ! file.startsWith('irfbr-',)) {
+      if (file.endsWith('.css',) && ! file.startsWith('index-',) && ! file.startsWith('iabrfbr-',)) {
         cssFiles.push(file,);
       }
     }
@@ -38,7 +38,7 @@ export default (configuration: Configuration, files: string[], cwd: string)  => 
       const s = d.createElement('script');
       const a = (t, v) => s.setAttribute(t, v);
       a('type', 'application/javascript');
-      a('src', '/assets/irfbr-${name}.js');
+      a('src', '/assets/iabrfbr-${name}.js');
       d.getElementsByTagName('header')[0].appendChild(s);
     }, ${ configuration.fileBuilder.preloadStartDelay });`);
     const tag = `<script type="text/javascript">${ loader }</script>`;
@@ -53,7 +53,7 @@ export default (configuration: Configuration, files: string[], cwd: string)  => 
         }
       })();`;
       writeFileSync(
-        `${cwd}/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js`,
+        `${cwd}/${configuration.fileFinder.distJSRoot}/iabrfbr-${name}.js`,
         minify(script),
         'utf8'
       );
@@ -67,7 +67,7 @@ export default (configuration: Configuration, files: string[], cwd: string)  => 
         }
       })();`;
       writeFileSync(
-        `${cwd}/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js`,
+        `${cwd}/${configuration.fileFinder.distJSRoot}/iabrfbr-${name}.js`,
         minify(script),
         'utf8'
       );
@@ -81,7 +81,7 @@ export default (configuration: Configuration, files: string[], cwd: string)  => 
         }
       })();`;
       writeFileSync(
-        `${cwd}/${configuration.fileFinder.distJSRoot}/irfbr-${name}.js`,
+        `${cwd}/${configuration.fileFinder.distJSRoot}/iabrfbr-${name}.js`,
         minify(script),
         'utf8'
       );
