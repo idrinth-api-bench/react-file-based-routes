@@ -28,7 +28,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@putout/minify": "^3.8.5",
+    "@putout/minify": "^4.0.0",
     "astring": "^1.8.6",
     "estree-walker": "^3.0.3",
     "fast-glob": "^3.3.2",
