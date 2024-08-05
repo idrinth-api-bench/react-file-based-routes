@@ -23,7 +23,7 @@
   "private": false,
   "devDependencies": {
     "@types/html-minifier": "^4.0.5",
-    "@types/node": "^20.11.5",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.2.48",
     "typescript": "^5.3.3"
   },
