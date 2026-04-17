@@ -25,7 +25,7 @@
     "@types/html-minifier": "^4.0.5",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^6.0.0"
   },
   "dependencies": {
     "@putout/minify": "^4.0.0",
