@@ -33,7 +33,7 @@
     "estree-walker": "^3.0.3",
     "fast-glob": "^3.3.2",
     "html-minifier": "^4.0.0",
-    "magic-string": "^0.30.5",
+    "magic-string": "^1.0.0",
     "react": "^19.0.0"
   },
   "scripts": {
